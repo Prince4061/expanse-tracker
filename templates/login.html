@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wisdom Expense - Sign In</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#111c2d",
+                        "primary-fixed": "#c4e7ff",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-container": "#3e495d",
+                        "surface-container-lowest": "#0a0f12",
+                        "error": "#ffb4ab",
+                        "surface": "#0f1418",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-tint": "#7bd0ff",
+                        "surface-container-low": "#171c20",
+                        "on-secondary": "#263143",
+                        "on-primary-fixed-variant": "#004c69",
+                        "tertiary-container": "#f1a02b",
+                        "surface-variant": "#303539",
+                        "outline": "#87929a",
+                        "outline-variant": "#3e484f",
+                        "inverse-on-surface": "#2c3135",
+                        "tertiary": "#ffc176",
+                        "background": "#0f1418",
+                        "secondary": "#bcc7de",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#0f1418",
+                        "on-tertiary": "#472a00",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-error": "#690005",
+                        "primary-container": "#38bdf8",
+                        "inverse-primary": "#00668a",
+                        "surface-container-high": "#252b2e",
+                        "on-primary-container": "#004965",
+                        "inverse-surface": "#dee3e8",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-background": "#dee3e8",
+                        "on-secondary-container": "#aeb9d0",
+                        "on-surface-variant": "#bdc8d1",
+                        "primary-fixed-dim": "#7bd0ff",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-fixed": "#001e2c",
+                        "tertiary-fixed-dim": "#ffb960",
+                        "on-surface": "#dee3e8",
+                        "on-tertiary-container": "#613b00",
+                        "surface-container": "#1b2024",
+                        "surface-container-highest": "#303539",
+                        "on-primary": "#00354a",
+                        "primary": "#8ed5ff",
+                        "surface-bright": "#343a3e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600", letterSpacing: "-0.01em" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "label-md": ["14px", { lineHeight: "20px", fontWeight: "500", letterSpacing: "0.01em" }],
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Glassmorphism utility for form inputs to match theme */
+        .glass-input {
+            background-color: rgba(27, 32, 36, 0.6); /* surface-container */
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased w-screen h-screen relative flex items-center justify-center font-body overflow-hidden">
+<!-- Ambient Background Layer -->
+<div class="absolute inset-0 z-0">
+<!-- Overlay gradients for mood and brand color infusion, blended better -->
+<div class="absolute inset-0 bg-background/50 z-10"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_0%,rgba(15,20,24,0.9)_100%)] z-10"></div>
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 z-10 mix-blend-overlay"></div>
+<!-- The blurred architectural image -->
+<img alt="Institutional Background" class="w-full h-full object-cover filter blur-2xl scale-110 opacity-70" data-alt="A cinematic, heavily blurred architectural office interior enveloped in deep nocturnal blues and rich shadows. The scene features a very shallow depth of field, transforming modern structural elements and glass partitions into abstract, luminous shapes. A vibrant, soft sky-blue light overlay permeates the atmosphere, establishing a high-performance, futuristic command-center aesthetic. The mood is highly professional, secure, and technologically advanced, perfectly suited for an enterprise financial platform background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzMz9h54cxpBW8apjhJBdOx7-vmcVn0bz23dQBSAdodd5zCR9cjjsRH0L0TcTjUEVVp5jbHhwRgk5DS9mbtT2134RtDH9x80SyVKmFVw3cFRSu6TraI9yw_hga_I_jjq-Ab6LhfazfHPqKB1L3b8r7ZLzZRxwf5UTv-t_mgbZUkzh-g-bklG3TCdaO9Wkse2OZQ8McV5znWlE6FsN-VfPm6kTp5lhaQZnODs_SlrrwNrKVeJoJO4J2CZDAUjLctiAPFVvTiRnIf1I5"/>
+</div>
+<!-- Login Glass Card -->
+<main class="relative z-20 w-full max-w-[440px] px-6 py-10 sm:px-10 rounded-xl bg-surface-container-low/70 backdrop-blur-xl border border-white/10 shadow-2xl flex flex-col gap-8 mx-auto m-auto">
+<!-- Brand Header -->
+<header class="flex flex-col items-center justify-center text-center gap-2">
+<div class="flex items-center justify-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="account_balance" data-weight="fill" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="text-headline-md font-headline text-primary tracking-tight">Wisdom Expense</span>
+</div>
+<h1 class="text-headline-lg font-headline text-on-surface">Sign In</h1>
+<p class="text-body-md font-body text-on-surface-variant">Secure access to the management suite.</p>
+</header>
+<!-- Login Form -->
+<form class="flex flex-col gap-5 w-full">
+<!-- Email Input -->
+<div class="flex flex-col gap-1.5 w-full">
+<label class="text-label-md font-label text-on-surface-variant" for="email">Institutional Email</label>
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-3 text-outline-variant text-[20px]" data-icon="mail">mail</span>
+<input class="glass-input w-full pl-10 pr-4 py-2.5 text-body-md text-on-surface border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all placeholder-outline-variant" id="email" placeholder="admin@school.edu" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="flex flex-col gap-1.5 w-full">
+<label class="text-label-md font-label text-on-surface-variant" for="password">Password</label>
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-3 text-outline-variant text-[20px]" data-icon="lock">lock</span>
+<input class="glass-input w-full pl-10 pr-10 py-2.5 text-body-md text-on-surface border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all placeholder-outline-variant tracking-widest" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 text-outline-variant hover:text-on-surface transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility_off">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="flex items-center justify-between mt-1 w-full">
+<label class="flex items-center gap-2 cursor-pointer group">
+<input class="rounded-[4px] border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-0 focus:ring-offset-transparent w-4 h-4 cursor-pointer transition-colors" type="checkbox"/>
+<span class="text-label-md font-label text-on-surface-variant group-hover:text-on-surface transition-colors">Remember me</span>
+</label>
+<a class="text-label-md font-label text-primary hover:text-primary-fixed transition-colors" href="#">Forgot password?</a>
+</div>
+<!-- Submit Action -->
+<button class="mt-4 w-full bg-primary text-on-primary py-3 rounded-lg text-label-md font-bold tracking-wide hover:shadow-[0_0_20px_rgba(142,213,255,0.25)] hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex justify-center items-center gap-2" type="submit">
+                Access Dashboard
+                <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Contact -->
+<footer class="pt-6 border-t border-white/5 text-center w-full">
+<p class="text-label-md font-label text-on-surface-variant">
+                Need administrative access? <a class="text-primary hover:text-primary-fixed transition-colors font-semibold" href="#">Contact IT Support</a>
+</p>
+</footer>
+</main>
+</body></html>
