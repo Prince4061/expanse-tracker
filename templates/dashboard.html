@@ -95,6 +95,10 @@
         document.getElementById('monthExp').innerText = '₹' + month.toFixed(2);
         document.getElementById('todayExp').innerText = '₹' + today.toFixed(2);
 
+        // Setup Chart Defaults
+        Chart.defaults.color = '#cbd5e1';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+
         // Setup Line Chart
         const ctx = document.getElementById('trendChart').getContext('2d');
         new Chart(ctx, {
@@ -104,8 +108,10 @@
                 datasets: [{
                     label: 'Expenses',
                     data: [12000, 19000, 3000, 5000, 2000, month],
-                    borderColor: '#3182ce',
-                    tension: 0.1
+                    borderColor: '#00f2fe',
+                    backgroundColor: 'rgba(0, 242, 254, 0.2)',
+                    fill: true,
+                    tension: 0.3
                 }]
             }
         });
@@ -123,7 +129,8 @@
                 labels: Object.keys(catMap).length ? Object.keys(catMap) : ['None'],
                 datasets: [{
                     data: Object.keys(catMap).length ? Object.values(catMap) : [1],
-                    backgroundColor: ['#3182ce', '#38b2ac', '#ecc94b', '#f56565', '#ed64a6', '#9f7aea']
+                    backgroundColor: ['#00f2fe', '#f472b6', '#a855f7', '#34d399', '#facc15', '#f87171'],
+                    borderWidth: 0
                 }]
             }
         });

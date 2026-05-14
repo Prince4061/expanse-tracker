@@ -1,3 +1,6 @@
+// Add Dark Theme by default
+document.documentElement.setAttribute('data-bs-theme', 'dark');
+
 // Initialize dummy data in LocalStorage if not exists
 if (!localStorage.getItem('categories')) {
     localStorage.setItem('categories', JSON.stringify([
