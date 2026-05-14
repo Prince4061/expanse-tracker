@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Categories - Wisdom Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="brand">Wisdom School</div>
+        <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+        <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
+        <a href="/categories" class="active"><i class="fa-solid fa-shapes"></i> Categories</a>
+        <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
+        <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Categories</h2>
+            <button class="btn btn-primary" onclick="addCat()">
+                <i class="fa-solid fa-plus"></i> Add Category
+            </button>
+        </div>
+        <div class="card p-3 border-0 shadow-sm" style="max-width: 600px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="catBody">
+                    <!-- Loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        const categories = getData('categories');
+        const tbody = document.getElementById('catBody');
+
+        function render() {
+            tbody.innerHTML = '';
+            if (categories.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" class="text-muted text-center">No categories found.</td></tr>';
+                return;
+            }
+            categories.forEach(c => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="align-middle">${c.name}</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary me-2" onclick="editCat(${c.id}, '${c.name}')"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="delCat(${c.id})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        render();
+
+        window.addCat = function () {
+            const name = prompt("Enter new category name:");
+            if (name && name.trim()) {
+                categories.push({ id: Date.now(), name: name.trim() });
+                setData('categories', categories);
+                render();
+            }
+        };
+
+        window.editCat = function (id, oldName) {
+            const newName = prompt("Edit category name:", oldName);
+            if (newName && newName.trim()) {
+                const idx = categories.findIndex(c => c.id === id);
+                if (idx !== -1) {
+                    categories[idx].name = newName.trim();
+                    setData('categories', categories);
+                    render();
+                }
+            }
+        };
+
+        window.delCat = function (id) {
+            if (confirm("Delete this category? Associated expenses might lose their category link.")) {
+                const newData = categories.filter(c => c.id !== id);
+                setData('categories', newData);
+                window.location.reload();
+            }
+        };
+    </script>
+</body>
+
+</html>

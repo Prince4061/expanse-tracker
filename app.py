@@ -26,8 +26,25 @@ def login():
 def dashboard():
     return render_template('dashboard.html')
 
-# Add other routes for expenses, categories, vendors here later...
+@app.route('/expenses')
+def expenses():
+    return render_template('expenses.html')
 
+@app.route('/categories')
+def categories():
+    return render_template('categories.html')
+
+@app.route('/vendors')
+def vendors():
+    return render_template('vendors.html')
+
+@app.route('/reports')
+def reports():
+    return render_template('reports.html')
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 if __name__ == '__main__':
     # Create database and tables if they don't exist
     with app.app_context():

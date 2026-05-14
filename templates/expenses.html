@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Expenses - Wisdom Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="brand">Wisdom School</div>
+        <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+        <a href="/expenses" class="active"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
+        <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
+        <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
+        <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Expenses</h2>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#expenseModal">
+                <i class="fa-solid fa-plus"></i> Add Expense
+            </button>
+        </div>
+
+        <div class="card p-3 border-0 shadow-sm">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Vendor</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseTableBody">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add Expense Modal -->
+    <div class="modal fade" id="expenseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="expenseForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Expense</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Title</label>
+                            <input type="text" class="form-control" id="expTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Amount (₹)</label>
+                            <input type="number" class="form-control" id="expAmount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Category</label>
+                            <select class="form-select" id="expCategory" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Vendor (Optional)</label>
+                            <select class="form-select" id="expVendor">
+                                <option value="">None</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Date</label>
+                            <input type="date" class="form-control" id="expDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Payment Method</label>
+                            <select class="form-select" id="expMethod" required>
+                                <option value="Cash">Cash</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                                <option value="Card">Card</option>
+                                <option value="UPI">UPI</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Expense</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script>
+        const expenses = getData('expenses');
+        const categories = getData('categories');
+        const vendors = getData('vendors');
+
+        // Populate Selects
+        const catSelect = document.getElementById('expCategory');
+        categories.forEach(c => catSelect.innerHTML += `<option value="${c.id}">${c.name}</option>`);
+
+        const venSelect = document.getElementById('expVendor');
+        vendors.forEach(v => venSelect.innerHTML += `<option value="${v.id}">${v.name}</option>`);
+
+        const tbody = document.getElementById('expenseTableBody');
+        function renderTable() {
+            tbody.innerHTML = '';
+            if (expenses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">No expenses found</td></tr>';
+            }
+            // Sort by date descending
+            const sorted = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+            sorted.forEach(e => {
+                const cat = categories.find(c => c.id == e.categoryId)?.name || '-';
+                const ven = vendors.find(v => v.id == e.vendorId)?.name || '-';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${e.date}</td>
+                        <td>${e.title}</td>
+                        <td><span class="badge bg-secondary">${cat}</span></td>
+                        <td>${ven}</td>
+                        <td class="fw-bold">₹${parseFloat(e.amount).toFixed(2)}</td>
+                        <td>${e.method}</td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" onclick="deleteExp(${e.id})"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        renderTable();
+
+        document.getElementById('expenseForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const newExp = {
+                id: Date.now(),
+                title: document.getElementById('expTitle').value,
+                amount: document.getElementById('expAmount').value,
+                categoryId: document.getElementById('expCategory').value,
+                vendorId: document.getElementById('expVendor').value,
+                date: document.getElementById('expDate').value,
+                method: document.getElementById('expMethod').value
+            };
+            expenses.push(newExp);
+            setData('expenses', expenses);
+            window.location.reload();
+        });
+
+        window.deleteExp = function (id) {
+            if (confirm("Are you sure you want to delete this expense?")) {
+                const newExps = expenses.filter(e => e.id !== id);
+                setData('expenses', newExps);
+                window.location.reload();
+            }
+        };
+    </script>
+</body>
+
+</html>

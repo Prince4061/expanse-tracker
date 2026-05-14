@@ -1,0 +1,87 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+}
+.sidebar {
+    width: 250px;
+    background-color: #0b0f19; /* very dark blue/black */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    position: fixed;
+    height: 100vh;
+}
+.sidebar .brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+}
+.sidebar a {
+    color: #a0aec0;
+    text-decoration: none;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    margin: 4px 15px;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+.sidebar a i {
+    margin-right: 15px;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+.sidebar a:hover, .sidebar a.active {
+    background-color: #1a202c;
+    color: #63b3ed; /* light blue */
+}
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 30px;
+    width: calc(100% - 250px);
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+.btn-primary {
+    background-color: #3182ce;
+    border-color: #3182ce;
+}
+.btn-primary:hover {
+    background-color: #2b6cb0;
+    border-color: #2b6cb0;
+}
+.table th {
+    background-color: #f8f9fa;
+    color: #4a5568;
+    font-weight: 600;
+}
+/* login specific */
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #e2e8f0;
+    width: 100%;
+    margin-left: 0;
+}
+.login-card {
+    width: 400px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}

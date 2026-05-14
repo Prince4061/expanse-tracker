@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Settings - Wisdom Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="brand">Wisdom School</div>
+        <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+        <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
+        <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
+        <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
+        <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+        <a href="/settings" class="active"><i class="fa-solid fa-gear"></i> Settings</a>
+        <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <h2 class="mb-4">System Settings</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card p-4 border-0 shadow-sm">
+                    <form id="settingsForm" onsubmit="event.preventDefault(); alert('Settings saved successfully!');">
+                        <h5 class="mb-3 text-primary"><i class="fa-solid fa-school me-2"></i>School Information</h5>
+                        <div class="mb-3">
+                            <label class="form-label text-muted">School Name</label>
+                            <input type="text" class="form-control" value="Wisdom The Global World School" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Contact Number</label>
+                            <input type="text" class="form-control" value="+91 9876543210">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Address</label>
+                            <textarea class="form-control" rows="3">123 Education Lane, Knowledge City</textarea>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="mb-3 text-primary"><i class="fa-solid fa-sliders me-2"></i>Preferences</h5>
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Currency Symbol</label>
+                            <select class="form-select">
+                                <option>₹ (INR)</option>
+                                <option>$ (USD)</option>
+                                <option>€ (EUR)</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted">Date Format</label>
+                            <select class="form-select">
+                                <option>DD-MM-YYYY</option>
+                                <option>MM/DD/YYYY</option>
+                                <option>YYYY-MM-DD</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card p-4 border-0 shadow-sm">
+                    <h5 class="mb-3 text-primary"><i class="fa-solid fa-shield-halved me-2"></i>Security</h5>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Current Password</label>
+                        <input type="password" class="form-control" placeholder="••••••••">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">New Password</label>
+                        <input type="password" class="form-control" placeholder="Enter new password">
+                    </div>
+                    <button class="btn btn-outline-primary" onclick="alert('Password changed!')">Update
+                        Password</button>
+                </div>
+
+                <div class="card p-4 border-0 shadow-sm mt-3 bg-light">
+                    <h5 class="mb-3 text-danger"><i class="fa-solid fa-database me-2"></i>Database Action</h5>
+                    <p class="text-muted small">Wiping data will clear all local storage records including expenses,
+                        categories, and vendors.</p>
+                    <button class="btn btn-danger" onclick="wipeData()">Wipe All Local Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+    <script>
+        function wipeData() {
+            if (confirm("WARNING: This will delete all your mock data. Are you sure?")) {
+                localStorage.clear();
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+
+</html>
