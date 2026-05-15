@@ -99,15 +99,30 @@
         Chart.defaults.color = '#cbd5e1';
         Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
 
+        // Build monthly trend from real data (last 6 months)
+        var monthlyMap = {};
+        expenses.forEach(function(e) {
+            if (!e.date) return;
+            var d = new Date(e.date);
+            var key = d.toLocaleString('default', { month: 'short', year: '2-digit' });
+            monthlyMap[key] = (monthlyMap[key] || 0) + parseFloat(e.amount || 0);
+        });
+        var trendLabels = Object.keys(monthlyMap);
+        var trendData = Object.values(monthlyMap);
+        if (trendLabels.length === 0) {
+            trendLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+            trendData = [0, 0, 0, 0, 0, 0];
+        }
+
         // Setup Line Chart
-        const ctx = document.getElementById('trendChart').getContext('2d');
+        var ctx = document.getElementById('trendChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: trendLabels,
                 datasets: [{
-                    label: 'Expenses',
-                    data: [12000, 19000, 3000, 5000, 2000, month],
+                    label: 'Expenses (₹)',
+                    data: trendData,
                     borderColor: '#00f2fe',
                     backgroundColor: 'rgba(0, 242, 254, 0.2)',
                     fill: true,
@@ -117,19 +132,20 @@
         });
 
         // Setup Doughnut Chart
-        const catMap = {};
-        expenses.forEach(e => {
-            const cName = getData('categories').find(c => c.id == e.categoryId)?.name || 'Unknown';
-            catMap[cName] = (catMap[cName] || 0) + parseFloat(e.amount);
+        var catMap = {};
+        expenses.forEach(function(e) {
+            var cat = getData('categories').find(function(c) { return c.id == e.categoryId; });
+            var cName = cat ? cat.name : 'Other';
+            catMap[cName] = (catMap[cName] || 0) + parseFloat(e.amount || 0);
         });
-        const cCtx = document.getElementById('catChart').getContext('2d');
+        var cCtx = document.getElementById('catChart').getContext('2d');
         new Chart(cCtx, {
             type: 'doughnut',
             data: {
-                labels: Object.keys(catMap).length ? Object.keys(catMap) : ['None'],
+                labels: Object.keys(catMap).length ? Object.keys(catMap) : ['No Data'],
                 datasets: [{
                     data: Object.keys(catMap).length ? Object.values(catMap) : [1],
-                    backgroundColor: ['#00f2fe', '#f472b6', '#a855f7', '#34d399', '#facc15', '#f87171'],
+                    backgroundColor: ['#00f2fe', '#f472b6', '#a855f7', '#34d399', '#facc15', '#f87171', '#60a5fa', '#fb923c'],
                     borderWidth: 0
                 }]
             }

@@ -27,39 +27,31 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="card p-4 border-0 shadow-sm">
-                    <form id="settingsForm" onsubmit="event.preventDefault(); alert('Settings saved successfully!');">
+                    <form id="settingsForm" onsubmit="saveSettings(event)">
                         <h5 class="mb-3 text-primary"><i class="fa-solid fa-school me-2"></i>School Information</h5>
                         <div class="mb-3">
                             <label class="form-label text-muted">School Name</label>
-                            <input type="text" class="form-control" value="Wisdom The Global World School" required>
+                            <input type="text" class="form-control" id="schoolName" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label text-muted">Contact Number</label>
-                            <input type="text" class="form-control" value="+91 9876543210">
+                            <input type="text" class="form-control" id="schoolPhone">
                         </div>
                         <div class="mb-3">
                             <label class="form-label text-muted">Address</label>
-                            <textarea class="form-control" rows="3">123 Education Lane, Knowledge City</textarea>
+                            <textarea class="form-control" id="schoolAddress" rows="3"></textarea>
                         </div>
 
                         <hr class="my-4">
 
                         <h5 class="mb-3 text-primary"><i class="fa-solid fa-sliders me-2"></i>Preferences</h5>
                         <div class="mb-3">
-                            <label class="form-label text-muted">Currency Symbol</label>
-                            <select class="form-select">
-                                <option>₹ (INR)</option>
-                                <option>$ (USD)</option>
-                                <option>€ (EUR)</option>
-                            </select>
+                            <label class="form-label text-muted">Currency</label>
+                            <input type="text" class="form-control" value="₹ INR (Indian Rupee)" readonly disabled>
                         </div>
                         <div class="mb-4">
                             <label class="form-label text-muted">Date Format</label>
-                            <select class="form-select">
-                                <option>DD-MM-YYYY</option>
-                                <option>MM/DD/YYYY</option>
-                                <option>YYYY-MM-DD</option>
-                            </select>
+                            <input type="text" class="form-control" value="DD-MM-YYYY" readonly disabled>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Save Changes</button>
@@ -72,21 +64,25 @@
                     <h5 class="mb-3 text-primary"><i class="fa-solid fa-shield-halved me-2"></i>Security</h5>
                     <div class="mb-3">
                         <label class="form-label text-muted">Current Password</label>
-                        <input type="password" class="form-control" placeholder="••••••••">
+                        <input type="password" class="form-control" id="curPass" placeholder="••••••••">
                     </div>
                     <div class="mb-3">
                         <label class="form-label text-muted">New Password</label>
-                        <input type="password" class="form-control" placeholder="Enter new password">
+                        <input type="password" class="form-control" id="newPass" placeholder="Enter new password">
                     </div>
-                    <button class="btn btn-outline-primary" onclick="alert('Password changed!')">Update
-                        Password</button>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmPass" placeholder="Re-enter new password">
+                    </div>
+                    <button class="btn btn-outline-primary" onclick="changePassword()">Update Password</button>
                 </div>
 
-                <div class="card p-4 border-0 shadow-sm mt-3 bg-light">
-                    <h5 class="mb-3 text-danger"><i class="fa-solid fa-database me-2"></i>Database Action</h5>
-                    <p class="text-muted small">Wiping data will clear all local storage records including expenses,
-                        categories, and vendors.</p>
-                    <button class="btn btn-danger" onclick="wipeData()">Wipe All Local Data</button>
+                <div class="card p-4 border-0 shadow-sm mt-3">
+                    <h5 class="mb-3 text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Danger Zone</h5>
+                    <p class="text-muted small">Yeh action sabhi expenses, categories aur vendors ka data hamesha ke liye delete kar dega.</p>
+                    <button class="btn btn-danger" onclick="wipeData()">
+                        <i class="fa-solid fa-trash me-2"></i>Sabha Data Delete Karo
+                    </button>
                 </div>
             </div>
         </div>
@@ -94,10 +90,41 @@
 
     <script src="/static/js/app.js"></script>
     <script>
+        // Load saved settings
+        var settings = getData('schoolSettings') || {};
+        document.getElementById('schoolName').value = settings.name || 'Wisdom The Global World School';
+        document.getElementById('schoolPhone').value = settings.phone || '+91 9876543210';
+        document.getElementById('schoolAddress').value = settings.address || '';
+
+        function saveSettings(e) {
+            e.preventDefault();
+            var s = {
+                name: document.getElementById('schoolName').value,
+                phone: document.getElementById('schoolPhone').value,
+                address: document.getElementById('schoolAddress').value
+            };
+            setData('schoolSettings', s);
+            alert('Settings saved successfully!');
+        }
+
+        function changePassword() {
+            var cur = document.getElementById('curPass').value;
+            var nw = document.getElementById('newPass').value;
+            var con = document.getElementById('confirmPass').value;
+            if (!cur || !nw) { alert('Please fill all password fields.'); return; }
+            if (nw !== con) { alert('New passwords do not match!'); return; }
+            var users = getData('users');
+            var user = users.find(function(u) { return u.username === 'admin'; });
+            if (!user || user.password !== cur) { alert('Current password is incorrect!'); return; }
+            user.password = nw;
+            setData('users', users);
+            alert('Password updated successfully!');
+        }
+
         function wipeData() {
-            if (confirm("WARNING: This will delete all your mock data. Are you sure?")) {
+            if (confirm("CHETAVANI: Yeh sabhi expenses, categories aur vendors delete kar dega. Kya aap sure hain?")) {
                 localStorage.clear();
-                window.location.reload();
+                window.location.href = '/login';
             }
         }
     </script>
