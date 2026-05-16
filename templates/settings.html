@@ -103,27 +103,31 @@
 
                 <!-- Right Column -->
                 <div class="col-lg-6">
-                    <!-- Security -->
+                    <!-- Security & Account -->
                     <div class="settings-section">
                         <div class="settings-section-header">
                             <i class="fa-solid fa-shield-halved"></i>
-                            <span>Security — Change Password</span>
+                            <span>Account Settings</span>
                         </div>
                         <div class="settings-section-body">
                             <div class="mb-3">
-                                <label class="form-label">Current Password</label>
+                                <label class="form-label">Username (ID)</label>
+                                <input type="text" class="form-control" id="newUsername" value="{{ current_user.username }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Current Password (Required)</label>
                                 <input type="password" class="form-control" id="curPass" placeholder="••••••••">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="newPass" placeholder="Enter new password">
+                                <label class="form-label">New Password (Optional)</label>
+                                <input type="password" class="form-control" id="newPass" placeholder="Leave blank to keep same">
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Confirm New Password</label>
-                                <input type="password" class="form-control" id="confirmPass" placeholder="Re-enter new password">
+                                <input type="password" class="form-control" id="confirmPass" placeholder="Leave blank to keep same">
                             </div>
-                            <button class="btn btn-primary" onclick="changePassword()">
-                                <i class="fa-solid fa-key me-2"></i>Update Password
+                            <button class="btn btn-primary" onclick="updateAccount()">
+                                <i class="fa-solid fa-user-shield me-2"></i>Update Account
                             </button>
                         </div>
                     </div>
@@ -200,21 +204,24 @@
             }
         }
 
-        async function changePassword() {
+        async function updateAccount() {
+            var usr = document.getElementById('newUsername').value;
             var cur = document.getElementById('curPass').value;
             var nw = document.getElementById('newPass').value;
             var con = document.getElementById('confirmPass').value;
-            if (!cur || !nw) { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>Please fill all password fields.', 'danger'); return; }
-            if (nw !== con) { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>New passwords do not match!', 'danger'); return; }
             
-            const res = await apiPost('/api/user/password', { current: cur, new: nw });
+            if (!cur) { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>Current password is required to make changes.', 'danger'); return; }
+            if (usr.trim() === '') { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>Username cannot be empty.', 'danger'); return; }
+            if (nw && nw !== con) { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>New passwords do not match!', 'danger'); return; }
+            
+            const res = await apiPost('/api/user/account', { username: usr, current: cur, new: nw });
             if (res.success) {
                 document.getElementById('curPass').value = '';
                 document.getElementById('newPass').value = '';
                 document.getElementById('confirmPass').value = '';
-                showAlert('<i class="fa-solid fa-check-circle me-2"></i>Password updated successfully!', 'success');
+                showAlert('<i class="fa-solid fa-check-circle me-2"></i>Account updated successfully!', 'success');
             } else {
-                showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>' + (res.message || 'Error updating password'), 'danger');
+                showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>' + (res.message || 'Error updating account'), 'danger');
             }
         }
 

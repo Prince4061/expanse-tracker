@@ -220,18 +220,27 @@ def api_settings():
     settings = Setting.query.all()
     return jsonify({s.key_name: s.value for s in settings})
 
-@app.route('/api/user/password', methods=['POST'])
+@app.route('/api/user/account', methods=['POST'])
 @login_required
-def api_password():
+def api_account():
     from werkzeug.security import generate_password_hash
     data = request.json
     cur = data.get('current')
     nw = data.get('new')
+    new_username = data.get('username')
     
     if not check_password_hash(current_user.password_hash, cur):
         return jsonify({'success': False, 'message': 'Current password incorrect'})
         
-    current_user.password_hash = generate_password_hash(nw)
+    if new_username and new_username != current_user.username:
+        existing = User.query.filter_by(username=new_username).first()
+        if existing:
+            return jsonify({'success': False, 'message': 'Username already taken'})
+        current_user.username = new_username
+        
+    if nw:
+        current_user.password_hash = generate_password_hash(nw)
+        
     db.session.commit()
     return jsonify({'success': True})
 
