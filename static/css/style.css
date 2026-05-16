@@ -643,3 +643,27 @@ hr { border-color: var(--border) !important; opacity: 1 !important; }
 
 .danger-zone-header { color: var(--danger) !important; }
 .danger-zone-header i { color: var(--danger) !important; }
+
+/* ═══════════════════ LOGO EFFECTS ═══════════════════ */
+@keyframes logoPulseGlow {
+    0% {
+        box-shadow: 0 0 10px rgba(108, 99, 255, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(0, 212, 255, 0.8), 0 0 15px rgba(108, 99, 255, 0.6);
+        transform: scale(1.05);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(108, 99, 255, 0.4);
+        transform: scale(1);
+    }
+}
+
+.brand-icon img, .login-logo img {
+    border-radius: 12px; /* Curves the edges */
+    animation: logoPulseGlow 3s infinite ease-in-out; /* Pulsing and glowing animation */
+    /* Add a subtle solid border to make the glow stand out from the image */
+    border: 2px solid rgba(108, 99, 255, 0.2);
+    background-color: #fff; /* Ensure transparent parts get the white bg if needed */
+}
