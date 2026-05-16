@@ -1,69 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Reports - Wisdom Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports — Wisdom Expense Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
-
 <body>
     <div class="sidebar">
-        <div class="brand">Wisdom School</div>
-        <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
-        <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
-        <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
-        <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
-        <a href="/reports" class="active"><i class="fa-solid fa-chart-bar"></i> Reports</a>
-        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
-        <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+        <div class="sidebar-header">
+            <a class="brand-logo" href="/dashboard">
+                <div class="brand-icon" style="background: transparent; box-shadow: none;">
+                    <img src="https://i.ibb.co/RT2kxG7N/school-logo.png" alt="School Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Wisdom School</span>
+                    <span class="brand-sub">Expense Tracker</span>
+                </div>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Menu</div>
+            <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+            <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
+            <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
+            <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
+            <div class="nav-section-label">Reports</div>
+            <a href="/reports" class="active"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+            <div class="nav-section-label">System</div>
+            <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
     </div>
 
     <div class="main-content">
-        <h2 class="mb-4">Reports &amp; Export</h2>
+        <div class="topbar">
+            <span class="topbar-title">Reports & Export</span>
+        </div>
 
-        <div class="card p-5 border-0 shadow-sm text-center" style="max-width: 800px; margin: 0 auto;">
-            <div class="my-3">
-                <i class="fa-solid fa-file-invoice-dollar fa-4x text-muted mb-4"></i>
-                <h4 class="mb-3">Generate Expense Reports</h4>
-                <p class="text-muted mb-4">Select the type of report you want to view or download.</p>
-
-                <div id="alertBox" class="mb-3"></div>
-
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <button class="btn btn-outline-primary px-4 py-2" onclick="showMonthly()">
-                        <i class="fa-solid fa-calendar-alt me-2"></i> Monthly
+        <div class="page-body">
+            <!-- Action Buttons -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-6">
+                    <button class="btn w-100 py-3" id="btnMonthly"
+                        style="background:rgba(108,99,255,0.12);border:1px solid rgba(108,99,255,0.3);color:#a29bfe;border-radius:12px;font-weight:600;transition:all 0.2s;"
+                        onclick="showMonthly()"
+                        onmouseover="this.style.background='rgba(108,99,255,0.2)'" onmouseout="this.style.background='rgba(108,99,255,0.12)'">
+                        <i class="fa-solid fa-calendar-alt d-block mb-1" style="font-size:1.3rem;"></i>
+                        Monthly
                     </button>
-                    <button class="btn btn-outline-primary px-4 py-2" onclick="showYearly()">
-                        <i class="fa-solid fa-calendar-check me-2"></i> Yearly
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn w-100 py-3" id="btnYearly"
+                        style="background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);color:#00d4ff;border-radius:12px;font-weight:600;transition:all 0.2s;"
+                        onclick="showYearly()"
+                        onmouseover="this.style.background='rgba(0,212,255,0.18)'" onmouseout="this.style.background='rgba(0,212,255,0.1)'">
+                        <i class="fa-solid fa-calendar-check d-block mb-1" style="font-size:1.3rem;"></i>
+                        Yearly
                     </button>
-                    <button class="btn btn-success px-4 py-2" onclick="exportExcel()">
-                        <i class="fa-solid fa-file-excel me-2"></i> Export Excel
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn w-100 py-3" onclick="exportExcel()"
+                        style="background:rgba(46,213,115,0.1);border:1px solid rgba(46,213,115,0.25);color:#2ed573;border-radius:12px;font-weight:600;transition:all 0.2s;"
+                        onmouseover="this.style.background='rgba(46,213,115,0.18)'" onmouseout="this.style.background='rgba(46,213,115,0.1)'">
+                        <i class="fa-solid fa-file-excel d-block mb-1" style="font-size:1.3rem;"></i>
+                        Export Excel
                     </button>
-                    <button class="btn btn-danger px-4 py-2" onclick="alert('PDF export coming soon!')">
-                        <i class="fa-solid fa-file-pdf me-2"></i> Export PDF
+                </div>
+                <div class="col-md-3 col-6">
+                    <button class="btn w-100 py-3"
+                        style="background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.2);color:#ff4757;border-radius:12px;font-weight:600;transition:all 0.2s;opacity:0.6;cursor:not-allowed;"
+                        disabled>
+                        <i class="fa-solid fa-file-pdf d-block mb-1" style="font-size:1.3rem;"></i>
+                        PDF (Soon)
                     </button>
                 </div>
             </div>
-        </div>
 
-        <div class="mt-4" style="max-width: 800px; margin: 0 auto;">
-            <h5 id="summaryTitle">Monthly Summary</h5>
-            <div class="card p-3 shadow-sm border-0">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th id="col1Header">Month</th>
-                            <th>Total Expenses</th>
-                            <th>Count</th>
-                        </tr>
-                    </thead>
-                    <tbody id="summaryTableBody">
-                        <tr><td colspan="3" class="text-center text-muted">Loading...</td></tr>
-                    </tbody>
-                </table>
+            <!-- Alert Box -->
+            <div id="alertBox" class="mb-3"></div>
+
+            <!-- Summary Table -->
+            <div class="chart-card">
+                <div class="chart-card-header" style="justify-content:space-between;">
+                    <span id="summaryTitle"><i class="fa-solid fa-calendar-alt" style="color:#6c63ff;"></i> Monthly Summary</span>
+                    <span id="summaryTotalBadge" style="font-size:0.8rem;color:#8b8ba0;"></span>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th id="col1Header">Month</th>
+                                <th>Total Expenses</th>
+                                <th>Count</th>
+                                <th>Avg per Expense</th>
+                            </tr>
+                        </thead>
+                        <tbody id="summaryTableBody">
+                            <tr><td colspan="4" class="text-center" style="padding:30px;color:#8b8ba0;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -71,70 +112,58 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/app.js"></script>
     <script>
-        const expenses = getData('expenses');
-        const categories = getData('categories');
-        const vendors = getData('vendors');
+        const expenses = {{ expenses_json | safe }};
+        const categories = {{ categories_json | safe }};
+        const vendors = {{ vendors_json | safe }};
 
         function getCategoryName(id) {
-            const cat = categories.find(c => c.id == id);
+            var cat = categories.find(c => c.id == id);
             return cat ? cat.name : '-';
         }
-
         function getVendorName(id) {
-            const ven = vendors.find(v => v.id == id);
+            var ven = vendors.find(v => v.id == id);
             return ven ? ven.name : '-';
         }
-
         function showAlert(msg, type) {
             document.getElementById('alertBox').innerHTML =
-                '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
-                msg +
-                '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                '</div>';
+                `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${msg}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>`;
         }
 
         function exportExcel() {
             if (expenses.length === 0) {
-                showAlert('No expenses found to export. Please add expenses first from the Expenses page.', 'warning');
+                showAlert('<i class="fa-solid fa-triangle-exclamation me-2"></i>Koi expense nahi mila. Pehle expenses add karein.', 'warning');
                 return;
             }
-
-            var headers = ['ID', 'Title', 'Amount (Rs)', 'Category', 'Vendor', 'Payment Method', 'Date', 'Notes'];
+            var headers = ['ID','Title','Amount (Rs)','Category','Vendor','Payment Method','Date','Notes'];
             var rows = expenses.map(function(e) {
                 return [
                     e.id,
-                    '"' + (e.title || '').replace(/"/g, '""') + '"',
-                    parseFloat(e.amount || 0).toFixed(2),
+                    '"' + (e.title||'').replace(/"/g,'""') + '"',
+                    parseFloat(e.amount||0).toFixed(2),
                     '"' + getCategoryName(e.categoryId) + '"',
                     '"' + getVendorName(e.vendorId) + '"',
                     e.method || '',
                     e.date || '',
-                    '"' + (e.notes || '').replace(/"/g, '""') + '"'
+                    '"' + (e.notes||'').replace(/"/g,'""') + '"'
                 ];
             });
-
             var csvContent = headers.join(',') + '\n';
             rows.forEach(function(row) { csvContent += row.join(',') + '\n'; });
-
-            var BOM = '\uFEFF';
-            var blob = new Blob([BOM + csvContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+            var blob = new Blob(['\uFEFF' + csvContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
             var url = URL.createObjectURL(blob);
-
             var a = document.createElement('a');
-            a.href = url;
-            a.download = 'expenses_report.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showAlert('Successfully exported ' + expenses.length + ' expense(s) to Excel!', 'success');
+            a.href = url; a.download = 'wisdom_expenses.csv';
+            document.body.appendChild(a); a.click();
+            document.body.removeChild(a); URL.revokeObjectURL(url);
+            showAlert('<i class="fa-solid fa-check-circle me-2"></i>' + expenses.length + ' expenses successfully exported!', 'success');
         }
 
         function showMonthly() {
-            document.getElementById('summaryTitle').textContent = 'Monthly Summary';
+            document.getElementById('summaryTitle').innerHTML = '<i class="fa-solid fa-calendar-alt" style="color:#6c63ff;"></i> Monthly Summary';
             document.getElementById('col1Header').textContent = 'Month';
-
             var grouped = {};
             expenses.forEach(function(e) {
                 if (!e.date) return;
@@ -144,14 +173,12 @@
                 grouped[key].total += parseFloat(e.amount || 0);
                 grouped[key].count++;
             });
-
             renderSummary(grouped);
         }
 
         function showYearly() {
-            document.getElementById('summaryTitle').textContent = 'Yearly Summary';
+            document.getElementById('summaryTitle').innerHTML = '<i class="fa-solid fa-calendar-check" style="color:#00d4ff;"></i> Yearly Summary';
             document.getElementById('col1Header').textContent = 'Year';
-
             var grouped = {};
             expenses.forEach(function(e) {
                 if (!e.date) return;
@@ -160,32 +187,31 @@
                 grouped[key].total += parseFloat(e.amount || 0);
                 grouped[key].count++;
             });
-
             renderSummary(grouped);
         }
 
         function renderSummary(grouped) {
             var tbody = document.getElementById('summaryTableBody');
             var keys = Object.keys(grouped);
-
+            var grandTotal = Object.values(grouped).reduce((s,v) => s + v.total, 0);
+            document.getElementById('summaryTotalBadge').textContent = 'Grand Total: ₹' + grandTotal.toLocaleString('en-IN',{minimumFractionDigits:2});
             if (keys.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No data found. Please add expenses first.</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="fa-solid fa-chart-bar"></i><p>No data available.<br>Please add some expenses first.</p></div></td></tr>`;
                 return;
             }
-
             tbody.innerHTML = '';
             keys.forEach(function(k) {
-                var total = grouped[k].total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-                tbody.innerHTML += '<tr>' +
-                    '<td>' + k + '</td>' +
-                    '<td class="fw-bold text-danger">&#8377;' + total + '</td>' +
-                    '<td>' + grouped[k].count + ' expense(s)</td>' +
-                    '</tr>';
+                var avg = grouped[k].count > 0 ? (grouped[k].total / grouped[k].count) : 0;
+                tbody.innerHTML += `<tr>
+                    <td style="font-weight:600;">${k}</td>
+                    <td style="font-weight:700;color:#6c63ff;">₹${grouped[k].total.toLocaleString('en-IN',{minimumFractionDigits:2})}</td>
+                    <td><span class="badge-cat">${grouped[k].count} expense${grouped[k].count !== 1 ? 's' : ''}</span></td>
+                    <td style="color:#8b8ba0;">₹${avg.toLocaleString('en-IN',{minimumFractionDigits:2})}</td>
+                </tr>`;
             });
         }
 
         showMonthly();
     </script>
 </body>
-
 </html>

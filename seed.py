@@ -1,48 +1,35 @@
 from app import app
-from models import db, Category, Expense, Vendor, User
+from models import db, Category, Expense, Vendor, User, Setting
 from datetime import datetime
+from werkzeug.security import generate_password_hash
 
 with app.app_context():
-    # Check if category exists
+    # 1. Seed Categories
     if Category.query.count() == 0:
-        c1 = Category(name='Salary')
-        c2 = Category(name='Electricity')
-        c3 = Category(name='Internet')
-        db.session.add_all([c1, c2, c3])
+        default_categories = [
+            'Salary', 'Electricity', 'Internet', 'Furniture', 'Stationery', 
+            'Maintenance', 'Event Expense', 'Marketing', 'Miscellaneous'
+        ]
+        for c_name in default_categories:
+            db.session.add(Category(name=c_name))
         db.session.commit()
-        print("Added sample categories.")
+        print("Added default categories.")
 
-    # Check if vendor exists
-    if Vendor.query.count() == 0:
-        v1 = Vendor(vendor_name='Modern Electronics', phone='9876543210')
-        db.session.add(v1)
-        db.session.commit()
-        print("Added sample vendor.")
-
-    # Check if user exists (needed for created_by)
+    # 2. Seed Default Admin User
     if User.query.count() == 0:
-        u1 = User(username='admin', password_hash='pbkdf2:sha256:260000$...', full_name='Admin User', role='Admin')
-        db.session.add(u1)
+        hashed_pw = generate_password_hash('admin123')
+        admin = User(username='admin', password_hash=hashed_pw, full_name='System Admin', role='Admin')
+        db.session.add(admin)
         db.session.commit()
-        print("Added sample user.")
+        print("Added default admin user (admin/admin123).")
 
-    # Check if expense exists
-    if Expense.query.count() == 0:
-        admin = User.query.first()
-        cat = Category.query.first()
-        v = Vendor.query.first()
-        
-        e1 = Expense(
-            title='Office Internet Bill',
-            amount=1500.00,
-            category_id=cat.id,
-            vendor_id=v.id,
-            payment_method='UPI',
-            expense_date=datetime.utcnow(),
-            created_by=admin.id
-        )
-        db.session.add(e1)
+    # 3. Seed Default School Settings
+    if Setting.query.count() == 0:
+        s1 = Setting(key_name='school_name', value='Wisdom The Global World School')
+        s2 = Setting(key_name='school_phone', value='+91 9876543210')
+        s3 = Setting(key_name='school_address', value='123 Education Lane, Knowledge City')
+        db.session.add_all([s1, s2, s3])
         db.session.commit()
-        print("Added sample expense.")
+        print("Added default school settings.")
 
-    print(f"Current Counts - Categories: {Category.query.count()}, Expenses: {Expense.query.count()}")
+    print(f"Current DB Status - Users: {User.query.count()}, Categories: {Category.query.count()}, Settings: {Setting.query.count()}")

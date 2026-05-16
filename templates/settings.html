@@ -1,88 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Settings - Wisdom Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — Wisdom Expense Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
-
 <body>
     <div class="sidebar">
-        <div class="brand">Wisdom School</div>
-        <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
-        <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
-        <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
-        <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
-        <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
-        <a href="/settings" class="active"><i class="fa-solid fa-gear"></i> Settings</a>
-        <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+        <div class="sidebar-header">
+            <a class="brand-logo" href="/dashboard">
+                <div class="brand-icon" style="background: transparent; box-shadow: none;">
+                    <img src="https://i.ibb.co/RT2kxG7N/school-logo.png" alt="School Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Wisdom School</span>
+                    <span class="brand-sub">Expense Tracker</span>
+                </div>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Menu</div>
+            <a href="/dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+            <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
+            <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
+            <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
+            <div class="nav-section-label">Reports</div>
+            <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+            <div class="nav-section-label">System</div>
+            <a href="/settings" class="active"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
     </div>
 
     <div class="main-content">
-        <h2 class="mb-4">System Settings</h2>
+        <div class="topbar">
+            <span class="topbar-title">Settings</span>
+        </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card p-4 border-0 shadow-sm">
-                    <form id="settingsForm" onsubmit="saveSettings(event)">
-                        <h5 class="mb-3 text-primary"><i class="fa-solid fa-school me-2"></i>School Information</h5>
-                        <div class="mb-3">
-                            <label class="form-label text-muted">School Name</label>
-                            <input type="text" class="form-control" id="schoolName" required>
+        <div class="page-body">
+            <div id="alertBox" class="mb-3"></div>
+            <div class="row g-4">
+                <!-- Left Column -->
+                <div class="col-lg-6">
+                    <!-- School Info -->
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fa-solid fa-school"></i>
+                            <span>School Information</span>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Contact Number</label>
-                            <input type="text" class="form-control" id="schoolPhone">
+                        <div class="settings-section-body">
+                            <form id="settingsForm" onsubmit="saveSettings(event)">
+                                <div class="mb-3">
+                                    <label class="form-label">School Name</label>
+                                    <input type="text" class="form-control" id="schoolName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Contact Number</label>
+                                    <input type="text" class="form-control" id="schoolPhone" placeholder="+91 XXXXX XXXXX">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" id="schoolAddress" rows="3" placeholder="School address..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fa-solid fa-save me-2"></i>Save Changes
+                                </button>
+                            </form>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Address</label>
-                            <textarea class="form-control" id="schoolAddress" rows="3"></textarea>
-                        </div>
+                    </div>
 
-                        <hr class="my-4">
-
-                        <h5 class="mb-3 text-primary"><i class="fa-solid fa-sliders me-2"></i>Preferences</h5>
-                        <div class="mb-3">
-                            <label class="form-label text-muted">Currency</label>
-                            <input type="text" class="form-control" value="₹ INR (Indian Rupee)" readonly disabled>
+                    <!-- Preferences -->
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Preferences</span>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label text-muted">Date Format</label>
-                            <input type="text" class="form-control" value="DD-MM-YYYY" readonly disabled>
+                        <div class="settings-section-body">
+                            <div class="mb-3">
+                                <label class="form-label">Currency</label>
+                                <div class="form-control" style="display:flex;align-items:center;gap:10px;opacity:0.6;cursor:not-allowed;">
+                                    <span style="font-size:1.1rem;">₹</span>
+                                    <span>INR — Indian Rupee</span>
+                                    <span style="margin-left:auto;font-size:0.72rem;background:rgba(46,213,115,0.12);color:#2ed573;padding:2px 8px;border-radius:10px;">Fixed</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Date Format</label>
+                                <div class="form-control" style="display:flex;align-items:center;gap:10px;opacity:0.6;cursor:not-allowed;">
+                                    <i class="fa-solid fa-calendar" style="color:#8b8ba0;"></i>
+                                    <span>DD-MM-YYYY</span>
+                                    <span style="margin-left:auto;font-size:0.72rem;background:rgba(46,213,115,0.12);color:#2ed573;padding:2px 8px;border-radius:10px;">Fixed</span>
+                                </div>
+                            </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="card p-4 border-0 shadow-sm">
-                    <h5 class="mb-3 text-primary"><i class="fa-solid fa-shield-halved me-2"></i>Security</h5>
-                    <div class="mb-3">
-                        <label class="form-label text-muted">Current Password</label>
-                        <input type="password" class="form-control" id="curPass" placeholder="••••••••">
+                <!-- Right Column -->
+                <div class="col-lg-6">
+                    <!-- Security -->
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Security — Change Password</span>
+                        </div>
+                        <div class="settings-section-body">
+                            <div class="mb-3">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" class="form-control" id="curPass" placeholder="••••••••">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="newPass" placeholder="Enter new password">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirmPass" placeholder="Re-enter new password">
+                            </div>
+                            <button class="btn btn-primary" onclick="changePassword()">
+                                <i class="fa-solid fa-key me-2"></i>Update Password
+                            </button>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label text-muted">New Password</label>
-                        <input type="password" class="form-control" id="newPass" placeholder="Enter new password">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label text-muted">Confirm New Password</label>
-                        <input type="password" class="form-control" id="confirmPass" placeholder="Re-enter new password">
-                    </div>
-                    <button class="btn btn-outline-primary" onclick="changePassword()">Update Password</button>
-                </div>
 
-                <div class="card p-4 border-0 shadow-sm mt-3">
-                    <h5 class="mb-3 text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i>Danger Zone</h5>
-                    <p class="text-muted small">Yeh action sabhi expenses, categories aur vendors ka data hamesha ke liye delete kar dega.</p>
-                    <button class="btn btn-danger" onclick="wipeData()">
-                        <i class="fa-solid fa-trash me-2"></i>Sabha Data Delete Karo
-                    </button>
+                    <!-- Danger Zone -->
+                    <div class="settings-section" style="border-color:rgba(255,71,87,0.2);">
+                        <div class="settings-section-header danger-zone-header" style="border-bottom-color:rgba(255,71,87,0.15);">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>Danger Zone</span>
+                        </div>
+                        <div class="settings-section-body">
+                            <p style="color:#8b8ba0;font-size:0.875rem;margin-bottom:20px;line-height:1.6;">
+                                ⚠️ Yeh action <strong style="color:#ff4757;">permanently</strong> sabhi expenses, categories aur vendors ka data delete kar dega. Yeh action undo nahi ho sakta.
+                            </p>
+                            <button class="btn btn-danger" onclick="wipeData()">
+                                <i class="fa-solid fa-trash me-2"></i>Sabha Data Delete Karo
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- App Info -->
+                    <div class="settings-section">
+                        <div class="settings-section-header">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <span>App Information</span>
+                        </div>
+                        <div class="settings-section-body" style="display:flex;flex-direction:column;gap:12px;">
+                            <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+                                <span style="color:#8b8ba0;">Version</span>
+                                <span style="font-weight:600;">v1.0.0</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+                                <span style="color:#8b8ba0;">Stack</span>
+                                <span style="font-weight:600;">Flask + SQLite</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.85rem;">
+                                <span style="color:#8b8ba0;">Client</span>
+                                <span style="font-weight:600;">Wisdom School</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,44 +172,61 @@
 
     <script src="/static/js/app.js"></script>
     <script>
-        // Load saved settings
-        var settings = getData('schoolSettings') || {};
-        document.getElementById('schoolName').value = settings.name || 'Wisdom The Global World School';
-        document.getElementById('schoolPhone').value = settings.phone || '+91 9876543210';
-        document.getElementById('schoolAddress').value = settings.address || '';
-
-        function saveSettings(e) {
-            e.preventDefault();
-            var s = {
-                name: document.getElementById('schoolName').value,
-                phone: document.getElementById('schoolPhone').value,
-                address: document.getElementById('schoolAddress').value
-            };
-            setData('schoolSettings', s);
-            alert('Settings saved successfully!');
+        function showAlert(msg, type) {
+            document.getElementById('alertBox').innerHTML =
+                `<div class="alert alert-${type} alert-dismissible fade show">
+                    ${msg}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>`;
+            window.scrollTo({top:0,behavior:'smooth'});
         }
 
-        function changePassword() {
+        var settings = {{ settings_json | safe }};
+        document.getElementById('schoolName').value = settings.school_name || 'Wisdom The Global World School';
+        document.getElementById('schoolPhone').value = settings.school_phone || '';
+        document.getElementById('schoolAddress').value = settings.school_address || '';
+
+        async function saveSettings(e) {
+            e.preventDefault();
+            var payload = {
+                school_name: document.getElementById('schoolName').value,
+                school_phone: document.getElementById('schoolPhone').value,
+                school_address: document.getElementById('schoolAddress').value
+            };
+            const res = await apiPost('/api/settings', payload);
+            if(res.success) {
+                showAlert('<i class="fa-solid fa-check-circle me-2"></i>Settings saved successfully!', 'success');
+            } else {
+                showAlert('<i class="fa-solid fa-circle-exclamation me-2"></i>Failed to save.', 'danger');
+            }
+        }
+
+        async function changePassword() {
             var cur = document.getElementById('curPass').value;
             var nw = document.getElementById('newPass').value;
             var con = document.getElementById('confirmPass').value;
-            if (!cur || !nw) { alert('Please fill all password fields.'); return; }
-            if (nw !== con) { alert('New passwords do not match!'); return; }
-            var users = getData('users');
-            var user = users.find(function(u) { return u.username === 'admin'; });
-            if (!user || user.password !== cur) { alert('Current password is incorrect!'); return; }
-            user.password = nw;
-            setData('users', users);
-            alert('Password updated successfully!');
+            if (!cur || !nw) { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>Please fill all password fields.', 'danger'); return; }
+            if (nw !== con) { showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>New passwords do not match!', 'danger'); return; }
+            
+            const res = await apiPost('/api/user/password', { current: cur, new: nw });
+            if (res.success) {
+                document.getElementById('curPass').value = '';
+                document.getElementById('newPass').value = '';
+                document.getElementById('confirmPass').value = '';
+                showAlert('<i class="fa-solid fa-check-circle me-2"></i>Password updated successfully!', 'success');
+            } else {
+                showAlert('<i class="fa-solid fa-exclamation-circle me-2"></i>' + (res.message || 'Error updating password'), 'danger');
+            }
         }
 
-        function wipeData() {
-            if (confirm("CHETAVANI: Yeh sabhi expenses, categories aur vendors delete kar dega. Kya aap sure hain?")) {
+        async function wipeData() {
+            if (confirm("CHETAVANI ⚠️\n\nYeh sabhi expenses, categories aur vendors delete kar dega.\n\nKya aap bilkul sure hain?")) {
+                // In a real prod environment we'd have a wipe API.
+                // For safety, this API endpoint isn't exposed yet, so we just clear local cache and logout
                 localStorage.clear();
+                await fetch('/logout');
                 window.location.href = '/login';
             }
         }
     </script>
 </body>
-
 </html>

@@ -1,68 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Wisdom Expense Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Wisdom Expense Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="brand">Wisdom School</div>
-        <a href="/dashboard" class="active"><i class="fa-solid fa-border-all"></i> Dashboard</a>
-        <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
-        <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
-        <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
-        <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
-        <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
-        <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+        <div class="sidebar-header">
+            <a class="brand-logo" href="/dashboard">
+                <div class="brand-icon" style="background: transparent; box-shadow: none;">
+                    <img src="https://i.ibb.co/RT2kxG7N/school-logo.png" alt="School Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Wisdom School</span>
+                    <span class="brand-sub">Expense Tracker</span>
+                </div>
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Main Menu</div>
+            <a href="/dashboard" class="active"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+            <a href="/expenses"><i class="fa-solid fa-money-bill-wave"></i> Expenses</a>
+            <a href="/categories"><i class="fa-solid fa-shapes"></i> Categories</a>
+            <a href="/vendors"><i class="fa-solid fa-store"></i> Vendors</a>
+            <div class="nav-section-label">Reports</div>
+            <a href="/reports"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+            <div class="nav-section-label">System</div>
+            <a href="/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h2 class="mb-4">Dashboard</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0">
-                    <h6 class="text-muted">Total Expenses</h6>
-                    <h3 id="totalExp">₹0</h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0">
-                    <h6 class="text-muted">This Month</h6>
-                    <h3 id="monthExp">₹0</h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0">
-                    <h6 class="text-muted">Today</h6>
-                    <h3 id="todayExp">₹0</h3>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-3 shadow-sm border-0">
-                    <h6 class="text-muted">Total Vendors</h6>
-                    <h3 id="totalVendors">0</h3>
-                </div>
+        <div class="topbar">
+            <span class="topbar-title">Dashboard</span>
+            <div class="topbar-badge">
+                <i class="fa-solid fa-circle" style="font-size:7px;color:#2ed573;"></i>
+                <span id="topbarSchool">Wisdom School</span>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-md-8">
-                <div class="card p-3 shadow-sm border-0">
-                    <h5>Monthly Trend</h5>
-                    <canvas id="trendChart" height="100"></canvas>
+
+        <div class="page-body">
+            <!-- Stat Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <div class="stat-label">Total Expenses</div>
+                        <div class="stat-value" id="totalExp">₹0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon cyan"><i class="fa-solid fa-calendar-days"></i></div>
+                        <div class="stat-label">This Month</div>
+                        <div class="stat-value" id="monthExp">₹0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fa-solid fa-clock"></i></div>
+                        <div class="stat-label">Today</div>
+                        <div class="stat-value" id="todayExp">₹0</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fa-solid fa-store"></i></div>
+                        <div class="stat-label">Total Vendors</div>
+                        <div class="stat-value" id="totalVendors">0</div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card p-3 shadow-sm border-0">
-                    <h5>Category Wise</h5>
-                    <canvas id="catChart" height="200"></canvas>
+
+            <!-- Charts -->
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <div class="chart-card">
+                        <div class="chart-card-header">
+                            <i class="fa-solid fa-chart-line"></i> Monthly Trend
+                        </div>
+                        <div class="chart-card-body">
+                            <canvas id="trendChart" height="90"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-card h-100">
+                        <div class="chart-card-header">
+                            <i class="fa-solid fa-chart-pie"></i> Category Wise
+                        </div>
+                        <div class="chart-card-body d-flex align-items-center justify-content-center">
+                            <canvas id="catChart" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Expenses -->
+            <div class="chart-card mt-3">
+                <div class="chart-card-header">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Recent Expenses
+                </div>
+                <div style="overflow-x:auto;">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTable">
+                            <tr><td colspan="5" class="text-center" style="color:#8b8ba0;padding:30px;">No expenses yet</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -70,16 +133,17 @@
 
     <script src="/static/js/app.js"></script>
     <script>
-        // Populate stats dynamically
-        const expenses = getData('expenses');
-        const vendors = getData('vendors');
+        // School name
+        var settings = {{ settings_json | safe }};
+        if (settings.school_name) document.getElementById('topbarSchool').textContent = settings.school_name;
+
+        const expenses = {{ expenses_json | safe }};
+        const vendors = {{ vendors_json | safe }};
+        const categories = {{ categories_json | safe }};
 
         document.getElementById('totalVendors').innerText = vendors.length;
 
-        let total = 0;
-        let today = 0;
-        let month = 0;
-
+        let total = 0, today = 0, month = 0;
         const now = new Date();
         const todayStr = now.toISOString().split('T')[0];
         const monthStr = todayStr.substring(0, 7);
@@ -88,18 +152,19 @@
             const amt = parseFloat(e.amount);
             total += amt;
             if (e.date === todayStr) today += amt;
-            if (e.date.startsWith(monthStr)) month += amt;
+            if (e.date && e.date.startsWith(monthStr)) month += amt;
         });
 
-        document.getElementById('totalExp').innerText = '₹' + total.toFixed(2);
-        document.getElementById('monthExp').innerText = '₹' + month.toFixed(2);
-        document.getElementById('todayExp').innerText = '₹' + today.toFixed(2);
+        function fmt(n) { return '₹' + n.toLocaleString('en-IN', {minimumFractionDigits: 2}); }
+        document.getElementById('totalExp').innerText = fmt(total);
+        document.getElementById('monthExp').innerText = fmt(month);
+        document.getElementById('todayExp').innerText = fmt(today);
 
-        // Setup Chart Defaults
-        Chart.defaults.color = '#cbd5e1';
-        Chart.defaults.borderColor = 'rgba(255,255,255,0.1)';
+        // Chart defaults
+        Chart.defaults.color = '#8b8ba0';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
 
-        // Build monthly trend from real data (last 6 months)
+        // Monthly Trend
         var monthlyMap = {};
         expenses.forEach(function(e) {
             if (!e.date) return;
@@ -114,8 +179,11 @@
             trendData = [0, 0, 0, 0, 0, 0];
         }
 
-        // Setup Line Chart
         var ctx = document.getElementById('trendChart').getContext('2d');
+        var grad = ctx.createLinearGradient(0, 0, 0, 200);
+        grad.addColorStop(0, 'rgba(108,99,255,0.3)');
+        grad.addColorStop(1, 'rgba(108,99,255,0)');
+
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -123,18 +191,23 @@
                 datasets: [{
                     label: 'Expenses (₹)',
                     data: trendData,
-                    borderColor: '#00f2fe',
-                    backgroundColor: 'rgba(0, 242, 254, 0.2)',
+                    borderColor: '#6c63ff',
+                    backgroundColor: grad,
                     fill: true,
-                    tension: 0.3
+                    tension: 0.4,
+                    pointBackgroundColor: '#6c63ff',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    borderWidth: 2
                 }]
-            }
+            },
+            options: { plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } } }
         });
 
-        // Setup Doughnut Chart
+        // Doughnut Chart
         var catMap = {};
         expenses.forEach(function(e) {
-            var cat = getData('categories').find(function(c) { return c.id == e.categoryId; });
+            var cat = categories.find(function(c) { return c.id == e.categoryId; });
             var cName = cat ? cat.name : 'Other';
             catMap[cName] = (catMap[cName] || 0) + parseFloat(e.amount || 0);
         });
@@ -145,12 +218,31 @@
                 labels: Object.keys(catMap).length ? Object.keys(catMap) : ['No Data'],
                 datasets: [{
                     data: Object.keys(catMap).length ? Object.values(catMap) : [1],
-                    backgroundColor: ['#00f2fe', '#f472b6', '#a855f7', '#34d399', '#facc15', '#f87171', '#60a5fa', '#fb923c'],
-                    borderWidth: 0
+                    backgroundColor: ['#6c63ff','#00d4ff','#2ed573','#ffa502','#ff4757','#ff6b81','#eccc68','#a29bfe'],
+                    borderWidth: 0,
+                    hoverOffset: 6
                 }]
-            }
+            },
+            options: { cutout: '70%', plugins: { legend: { position: 'bottom', labels: { padding: 12, font: { size: 11 } } } } }
         });
+
+        // Recent expenses table
+        var sorted = [...expenses].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0,5);
+        if (sorted.length > 0) {
+            var rtb = document.getElementById('recentTable');
+            rtb.innerHTML = '';
+            sorted.forEach(function(e) {
+                var cat = categories.find(c => c.id == e.categoryId);
+                var cName = cat ? cat.name : '-';
+                rtb.innerHTML += `<tr>
+                    <td style="color:#8b8ba0;">${e.date}</td>
+                    <td style="font-weight:500;">${e.title}</td>
+                    <td><span class="badge-cat">${cName}</span></td>
+                    <td style="font-weight:700;color:#6c63ff;">₹${parseFloat(e.amount).toLocaleString('en-IN',{minimumFractionDigits:2})}</td>
+                    <td><span class="badge-method badge-${(e.method||'').toLowerCase().replace(' ','-')}">${e.method}</span></td>
+                </tr>`;
+            });
+        }
     </script>
 </body>
-
 </html>
