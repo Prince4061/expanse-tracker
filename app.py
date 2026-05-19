@@ -13,6 +13,13 @@ app.config.from_object(Config)
 
 db.init_app(app)
 
+# Ensure the instance folder exists (needed for SQLite)
+os.makedirs(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'instance'), exist_ok=True)
+
+# Create all database tables at startup (runs under gunicorn too)
+with app.app_context():
+    db.create_all()
+
 # --- Flask Login Setup ---
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -282,6 +289,4 @@ def export_excel():
     )
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
